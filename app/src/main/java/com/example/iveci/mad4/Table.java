@@ -8,15 +8,15 @@ public class Table {
     String Tablename;
     String EnterDate;
     int numspag, numpizza;
-    int member;
-    public Table(String Table){
-        this.Tablename = Table;
+    boolean member;
+    public Table(String table){
+        this.Tablename = table;
         this.EnterDate = "";
         this.numspag = 0;
         this.numpizza = 0;
-        this.member = 0;
+        this.member = false;
     }
-    public void modTable(Table table,String Enter, int spag, int pizza, int member) {
+    public void modTable(Table table,String Enter, int spag, int pizza, boolean member) {
         table.EnterDate = Enter;
         table.numspag = spag;
         table.numpizza = pizza;
@@ -25,6 +25,10 @@ public class Table {
 
     public boolean isEmpty(){
         return (this.EnterDate == "" ? true : false);
+    }
+
+    public String getTablename() {
+        return Tablename;
     }
 
     public String getEnterDate() {
@@ -39,12 +43,13 @@ public class Table {
         return numpizza;
     }
 
-    public int getMember() {
+    public boolean getMember() {
         return member;
     }
 
     @Override
     public String toString() {
-        return this.Tablename;
+        if (isEmpty()) return this.Tablename + " (비어있음)";
+        else return this.Tablename;
     }
 }

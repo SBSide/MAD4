@@ -6,13 +6,17 @@ import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
+
+import static android.content.ContentValues.TAG;
 
 /**
  * Created by iveci on 2017-03-30.
@@ -21,6 +25,7 @@ import android.widget.Toast;
 public class Fragment1 extends Fragment {
     final Table[] LIST_MENU = {new Table("사과 Table"),new Table("포도 Table"),new Table("키위 Table"),new Table("자몽 Table")};
     Button b1,b2,b3;
+    TextView t1,t2;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -31,11 +36,17 @@ public class Fragment1 extends Fragment {
         b1 = (Button) fragv1.findViewById(R.id.neworder);
         b2 = (Button) fragv1.findViewById(R.id.correct);
         b3 = (Button) fragv1.findViewById(R.id.initia);
+        t1 = (TextView) fragv1.findViewById(R.id.autotab);
+        t2 = (TextView) fragv1.findViewById(R.id.autotime);
         b1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 View view = View.inflate(getActivity(), R.layout.order, null);
                 AlertDialog.Builder order = new AlertDialog.Builder(getActivity());
+                /*for (int i = 0; i < LIST_MENU.length; i++){
+                    if (LIST_MENU[i].isEmpty())
+                        t1.setText(LIST_MENU[i].getTablename());
+                }*/
                 order.setTitle("새 주문")
                         .setView(view)
                         .setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -49,7 +60,6 @@ public class Fragment1 extends Fragment {
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
                                 Snackbar.make(fragv1, "정보가 입력되었습니다.", Snackbar.LENGTH_SHORT).show();
                             }
                         }).show();

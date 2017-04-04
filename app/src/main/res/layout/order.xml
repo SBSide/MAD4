@@ -17,11 +17,11 @@
             android:layout_height="wrap_content"
             android:text="테이블명" />
 
-        <EditText
-            android:id="@+id/editText0"
+        <TextView
+            android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10" />
+            android:text=""/>
 
         <TextView
             android:id="@+id/textView1"
@@ -29,11 +29,11 @@
             android:layout_height="wrap_content"
             android:text="입장시간" />
 
-        <EditText
-            android:id="@+id/editText1"
+        <TextView
+            android:id="@+id/autotime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10" />
+            android:text=""/>
 
         <TextView
             android:id="@+id/textView2"

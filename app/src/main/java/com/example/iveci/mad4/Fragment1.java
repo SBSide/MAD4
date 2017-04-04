@@ -3,6 +3,7 @@ package com.example.iveci.mad4;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -18,13 +19,12 @@ import android.widget.Toast;
  */
 
 public class Fragment1 extends Fragment {
-    final String[] LIST_MENU = {"사과 Table","포도 Table","키위 Table","자몽 Table"};
-    final Boolean[] EMPTY = {true, true, true, true};
+    final Table[] LIST_MENU = {new Table("사과 Table"),new Table("포도 Table"),new Table("키위 Table"),new Table("자몽 Table")};
     Button b1,b2,b3;
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View fragv1 = inflater.inflate(R.layout.fragment1,null);
+        final View fragv1 = inflater.inflate(R.layout.fragment1,null);
         ArrayAdapter adapter = new ArrayAdapter(getActivity(), R.layout.support_simple_spinner_dropdown_item, LIST_MENU) ;
         ListView listview = (ListView) fragv1.findViewById(R.id.list01) ;
         listview.setAdapter(adapter);
@@ -49,9 +49,8 @@ public class Fragment1 extends Fragment {
                         .setPositiveButton("확인", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getActivity(),
-                                        "정보가 입력되었습니다.",Toast.LENGTH_SHORT)
-                                        .show();
+
+                                Snackbar.make(fragv1, "정보가 입력되었습니다.", Snackbar.LENGTH_SHORT).show();
                             }
                         }).show();
             }

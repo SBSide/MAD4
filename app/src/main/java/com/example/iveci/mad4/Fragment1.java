@@ -55,20 +55,15 @@ public class Fragment1 extends Fragment {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 if (LIST_MENU[position].isEmpty()){
-                    Log.d(TAG,"EMPTY");
-                    t3.setText(parent.getItemAtPosition(position).toString());
+                    i = position;
+                    Refresh(i);
                     Toast.makeText(getActivity(),
                             "빈 테이블입니다.",Toast.LENGTH_SHORT)
                             .show();
                 }
                 else {
-                    int spa = LIST_MENU[position].getNumspag();
-                    int piz = LIST_MENU[position].getNumpizza();
-                    t4.setText(LIST_MENU[position].getEnterDate());
-                    t5.setText(spa+"");
-                    t6.setText(piz+"");
-                    t7.setText(LIST_MENU[position].getMember() ? "VIP멤버쉽" : "기본멤버쉽");
-                    t8.setText(LIST_MENU[position].getMember() ? ((spa * 10000 + piz * 12000)/10)*7 + "원" : ((spa * 10000 + piz * 12000)/10)*9 + "원" );
+                    i = position;
+                    Refresh(i);
                 }
             }
         });
@@ -77,20 +72,14 @@ public class Fragment1 extends Fragment {
             public void onClick(View v) {
                 View view = View.inflate(getActivity(), R.layout.order, null);
                 AlertDialog.Builder order = new AlertDialog.Builder(getActivity());
-                t1 = (TextView) view.findViewById(R.id.autotab);
-                t2 = (TextView) view.findViewById(R.id.autotime);
-                e1 = (EditText) view.findViewById(R.id.spagetti);
-                e2 = (EditText) view.findViewById(R.id.pizza);
-                r1 = (RadioGroup) view.findViewById(R.id.membership);
+                Buttoninit(view);
                 for ( i = 0; i < LIST_MENU.length; i++){
                     if (LIST_MENU[i].isEmpty()) {
                         t1.setText(" " + LIST_MENU[i].getTablename());
                         break;
                     }
                 }
-                if (i >= LIST_MENU.length) {
-                    Snackbar.make(fragv1, "주문을 받을수 없습니다.", Snackbar.LENGTH_SHORT).show();
-                }
+                if (i >= LIST_MENU.length) Snackbar.make(fragv1, "더이상 주문을 받을수 없습니다.", Snackbar.LENGTH_SHORT).show();
                 else {
                     t2.setText(" " + new SimpleDateFormat("yyyyMMdd HH:mm")
                             .format(new Date(System.currentTimeMillis())));
@@ -108,16 +97,16 @@ public class Fragment1 extends Fragment {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     boolean mem;
-                                    if (r1.getCheckedRadioButtonId() == R.id.normalman){
-                                        mem = false;
-                                    }
+                                    if (r1.getCheckedRadioButtonId() == R.id.normalman) mem = false;
                                     else mem = true;
+                                    String sp = e1.getText().toString().equals("") ? "0" : e1.getText().toString();
+                                    String pz = e2.getText().toString().equals("") ? "0" : e2.getText().toString();
                                     LIST_MENU[i].modTable(t2.getText().toString(),
-                                            Integer.parseInt(e1.getText().toString()),
-                                            Integer.parseInt(e2.getText().toString()),
-                                            mem);
+                                            Integer.parseInt(sp),
+                                            Integer.parseInt(pz), mem);
                                             Snackbar.make(fragv1, "정보가 입력되었습니다.", Snackbar.LENGTH_SHORT).show();
                                     adapter.notifyDataSetChanged();
+                                    Refresh(i);
                                 }
                             }).show();
                 }
@@ -129,42 +118,85 @@ public class Fragment1 extends Fragment {
             public void onClick(View v) {
                 View view = View.inflate(getActivity(), R.layout.order, null);
                 AlertDialog.Builder order = new AlertDialog.Builder(getActivity());
-                order.setTitle("주문 수정")
-                        .setView(view)
-                        .setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                Toast.makeText(getActivity(),
-                                        "입력을 취소했습니다.",Toast.LENGTH_SHORT)
-                                        .show();
-                            }
-                        })
-                        .setPositiveButton("확인", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                boolean mem;
-                                if (r1.getCheckedRadioButtonId() == R.id.normalman){
-                                    mem = false;
+                Buttoninit(view);
+                /*for ( i = 0; i < LIST_MENU.length; i++){
+                    if (LIST_MENU[i].isEmpty()) break;
+                }*/
+                if (i >= LIST_MENU.length) Snackbar.make(fragv1, "수정할 주문이 없습니다.", Snackbar.LENGTH_SHORT).show();
+                else if (LIST_MENU[i].isEmpty()) Snackbar.make(fragv1, "비어있는 테이블은 수정할 수 없습니다.", Snackbar.LENGTH_SHORT).show();
+                else{
+                    t1.setText(t3.getText().toString());
+                    t2.setText(t4.getText().toString());
+                    order.setTitle("주문 수정")
+                            .setView(view)
+                            .setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Toast.makeText(getActivity(),
+                                            "입력을 취소했습니다.",Toast.LENGTH_SHORT)
+                                            .show();
                                 }
-                                else mem = true;
-                                LIST_MENU[i].modTable(
-                                        Integer.parseInt(e1.getText().toString()),
-                                        Integer.parseInt(e2.getText().toString()),
-                                        mem);
-                                Snackbar.make(fragv1, "정보가 수정되었습니다.", Snackbar.LENGTH_SHORT).show();
-                                adapter.notifyDataSetChanged();
-                            }
-                        }).show();
+                            })
+                            .setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    boolean mem;
+                                    if (r1.getCheckedRadioButtonId() == R.id.normalman) mem = false;
+                                    else mem = true;
+                                    String sp = e1.getText().toString().equals("") ? "0" : e1.getText().toString();
+                                    String pz = e2.getText().toString().equals("") ? "0" : e2.getText().toString();
+                                    LIST_MENU[i].modTable(
+                                            Integer.parseInt(sp),
+                                            Integer.parseInt(pz), mem);
+                                    Snackbar.make(fragv1, "정보가 수정되었습니다.", Snackbar.LENGTH_SHORT).show();
+                                    adapter.notifyDataSetChanged();
+                                    Refresh(i);
+                                }
+                            }).show();
+                }
             }
         });
         b3.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(getActivity(),"초기화 되었습니다.",Toast.LENGTH_SHORT).show();
+                if (i >= LIST_MENU.length) Snackbar.make(fragv1, "초기화할 테이블을 선택하시기 바랍니다.", Snackbar.LENGTH_SHORT).show();
+                else {
+                    LIST_MENU[i].modTable("",0,0,false);
+                    Snackbar.make(fragv1, "초기화 되었습니다.",Snackbar.LENGTH_SHORT).show();
+                    adapter.notifyDataSetChanged();
+                    Refresh(i);
+                }
             }
         });
-
         return fragv1;
+    }
+
+    public void Refresh(int position){//notifyDataChanged 이후 변경된 Data를 화면에 반영.
+        t3.setText(LIST_MENU[position].toString());
+        if (!LIST_MENU[position].isEmpty()){
+            int spa = LIST_MENU[position].getNumspag();
+            int piz = LIST_MENU[position].getNumpizza();
+            t4.setText(LIST_MENU[position].getEnterDate());
+            t5.setText(spa+"");
+            t6.setText(piz+"");
+            t7.setText(LIST_MENU[position].getMember() ? "VIP멤버쉽" : "기본멤버쉽");
+            t8.setText(LIST_MENU[position].getMember() ? ((spa * 10000 + piz * 12000)/10)*7 + "원" : ((spa * 10000 + piz * 12000)/10)*9 + "원" );
+        }
+        else{
+            t4.setText("");
+            t5.setText("");
+            t6.setText("");
+            t7.setText("");
+            t8.setText("0원");
+        }
+    }
+
+    public void Buttoninit(View v){//주문,수정용 초기화.
+        t1 = (TextView) v.findViewById(R.id.autotab);
+        t2 = (TextView) v.findViewById(R.id.autotime);
+        e1 = (EditText) v.findViewById(R.id.spagetti);
+        e2 = (EditText) v.findViewById(R.id.pizza);
+        r1 = (RadioGroup) v.findViewById(R.id.membership);
     }
 
 }

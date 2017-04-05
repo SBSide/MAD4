@@ -21,7 +21,8 @@
             android:id="@+id/autotab"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""/>
+            android:text=""
+            android:textSize="15dp"/>
 
         <TextView
             android:id="@+id/textView1"
@@ -33,7 +34,8 @@
             android:id="@+id/autotime"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text=""/>
+            android:text=""
+            android:textSize="15dp"/>
 
         <TextView
             android:id="@+id/textView2"

@@ -119,9 +119,6 @@ public class Fragment1 extends Fragment {
                 View view = View.inflate(getActivity(), R.layout.order, null);
                 AlertDialog.Builder order = new AlertDialog.Builder(getActivity());
                 Buttoninit(view);
-                /*for ( i = 0; i < LIST_MENU.length; i++){
-                    if (LIST_MENU[i].isEmpty()) break;
-                }*/
                 if (i >= LIST_MENU.length) Snackbar.make(fragv1, "수정할 주문이 없습니다.", Snackbar.LENGTH_SHORT).show();
                 else if (LIST_MENU[i].isEmpty()) Snackbar.make(fragv1, "비어있는 테이블은 수정할 수 없습니다.", Snackbar.LENGTH_SHORT).show();
                 else{

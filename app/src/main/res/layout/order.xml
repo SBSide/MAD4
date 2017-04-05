@@ -48,7 +48,8 @@
             android:id="@+id/spagetti"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:ems="10" />
+            android:ems="10"
+            android:inputType="number"/>
 
         <TextView
             android:id="@+id/textView4"
@@ -57,7 +58,7 @@
             android:text="피자" />
 
         <EditText
-            android:id="@+id/pizzar"
+            android:id="@+id/pizza"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -70,12 +71,14 @@
             android:text="멤버쉽" />
 
         <RadioGroup
+            android:id="@+id/membership"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <RadioButton
                 android:id="@+id/normalman"
+                android:checked="true"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="기본멤버쉽" />

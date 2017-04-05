@@ -16,11 +16,17 @@ public class Table {
         this.numpizza = 0;
         this.member = false;
     }
-    public void modTable(Table table,String Enter, int spag, int pizza, boolean member) {
-        table.EnterDate = Enter;
-        table.numspag = spag;
-        table.numpizza = pizza;
-        table.member = member;
+    public void modTable(String Enter, int spag, int pizza, boolean member) {
+        this.EnterDate = Enter;
+        this.numspag = spag;
+        this.numpizza = pizza;
+        this.member = member;
+    }
+
+    public void modTable(int spag, int pizza, boolean member) {
+        this.numspag = spag;
+        this.numpizza = pizza;
+        this.member = member;
     }
 
     public boolean isEmpty(){
